@@ -2,3 +2,4 @@
 # Please feel free to use any user name:
 # admin@outlook.com | security@outlook.com | supervisor@outlook.com | staff@outlook.com | client@outlook.com | user@outlook.com
 # They all have same password: Pa55w@rd
+# You will a "User-Authorization" picture with the contents of the user accesibility that each user has.
