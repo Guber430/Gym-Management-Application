@@ -1,0 +1,150 @@
+﻿@model IEnumerable<GymManagement.Models.Instructor>
+
+<partial name="_ViewHeading" />
+
+<p>
+    <a asp-action="Create" class="btn" style="background-color: #123C69; color: white; font-weight: 600; padding: 10px 30px; border-radius: 5px;">
+        <i class="bi bi-plus-circle"></i> Create New @ViewData["ControllerFriendlyName"]
+    </a>
+</p>
+
+<form asp-action="Index" method="get">
+    <input type="hidden" name="sortDirection" value="@ViewData["sortDirection"]" />
+    <input type="hidden" name="sortField" value="@ViewData["sortField"]" />
+    <div class="form-group mb-4">
+        <button class="btn" style="background-color: #AC3B61; color: white; font-weight: 600; padding: 10px 30px; border-radius: 5px;" type="button" data-bs-toggle="collapse" id="filterToggle" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+            <i class="bi bi-funnel"></i> Filter/Search <span class="badge bg-light text-dark">@ViewData["numberFilters"]</span>
+        </button>
+        <br />
+        <br />
+        <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
+            <div class="card card-body" style="background-color: #EEE2DC;">
+                <div class="row g-3">
+                    <!-- Instructor Name Search -->
+                    <div class="col-md-4">
+                        <label class="form-label" style="color: #123C69;">Search Instructor Name:</label>
+                        @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter instructor name..." })
+                    </div>
+
+                    <!-- Phone Number Search -->
+                    <div class="col-md-4">
+                        <label class="form-label" style="color: #123C69;">Search Phone Number:</label>
+                        @Html.TextBox("SearchPhone", null, new { @class = "form-control", placeholder = "Enter phone number..." })
+                    </div>
+
+                    <!-- Active Status Filter -->
+                    <div class="col-md-3">
+                        <label class="form-label" style="color: #123C69;">Filter by Active Status:</label>
+                        @Html.DropDownList("ActiveStatus", new List<SelectListItem>
+                        {
+                        new SelectListItem { Value = "true", Text = "Active" },
+                        new SelectListItem { Value = "false", Text = "Not Active" }
+                        }, "All Instructors", htmlAttributes: new { @class = "form-select" })
+                    </div>
+
+                    <div class="col-md-1 d-flex align-items-end">
+                        <input type="submit" name="actionButton" value="Filter" class="btn" style="background-color: #123C69; color: white; width: 100%; border-radius: 5px;" />
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <a asp-action="Index" class="btn btn-outline-dark w-100" style="border-radius: 5px;">Clear Filters</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <button type="submit" name="actionButton" value="Instructor" class="btn btn-link" style="color: #123C69; font-weight: 600;">Instructor</button>
+                </th>
+                <th>
+                    <button type="submit" name="actionButton" value="Seniority" class="btn btn-link" style="color: #123C69; font-weight: 600;">Seniority</button>
+                </th>
+                <th class="d-none d-md-table-cell">
+                    <button type="submit" name="actionButton" value="Phone" class="btn btn-link" style="color: #123C69; font-weight: 600;">Phone</button>
+                </th>
+                <th class="d-none d-lg-table-cell">
+                    <button type="submit" name="actionButton" value="Email" class="btn btn-link" style="color: #123C69; font-weight: 600;">Email</button>
+                </th>
+                <th class="d-none d-xl-table-cell">
+                    <button type="submit" value="Documents" class="btn btn-link" style="color: #123C69; font-weight: 600;">Documents</button>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="border-bottom: 1px solid #BAB2B5;">
+                    <td style="color: #123C69;">
+                        @Html.DisplayFor(modelItem => item.FormalName)
+                    </td>
+                    <td>
+                        <span style="color: #AC3B61;">@Html.DisplayFor(modelItem => item.Seniority)</span>
+                        <span class="badge" style="background-color: @(item.IsActive ? "#4CAF50" : "#F44336"); color: white;">
+                            @(item.IsActive ? "Active" : "Inactive")
+                        </span>
+                    </td>
+                    <td class="d-none d-md-table-cell">
+                        @Html.DisplayFor(modelItem => item.PhoneFormatted)
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td class="d-none d-xl-table-cell">
+                        @{
+                            int fileCount = item.InstructorDocuments.Count;
+                            if (fileCount > 0)
+                            {
+                                var firstFile = item.InstructorDocuments.FirstOrDefault(); ;
+                                if (fileCount > 1)
+                                {
+                                    <a class="" role="button" data-bs-toggle="collapse" href="#collapseDocs@(item.ID)" aria-expanded="false" aria-controls="collapseDocs@(item.ID)">
+                                        <span class="badge bg-info">@fileCount</span> Documents...
+                                    </a>
+                                    <div class="collapse" id="collapseDocs@(item.ID)">
+                                        @{
+                                            foreach (var d in item.InstructorDocuments)
+                                            {
+                                                <a asp-action="Download" asp-route-id="@d.ID">@d.FileName</a> <br />
+                                            }
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <a asp-action="Download" asp-route-id="@firstFile?.ID">@firstFile?.FileName</a>
+                                }
+                            }
+                            else
+                            {
+                                <span>No Documents</span>
+                            }
+                        }
+                    </td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-warning btn-sm" style="background-color: #AC3B61; color: white; border-radius: 5px;">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-sm" style="background-color: #123C69; color: white; border-radius: 5px;">
+                            <i class="bi bi-eye"></i> Details
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-sm" style="border-radius: 5px;">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_PagingNavBar" />
+</form>
+@section Scripts {
+    <script type="text/javascript">
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

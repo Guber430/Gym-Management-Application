@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Send Notifications";
+}
+
+<h1>Notification Emails</h1>
+
+<h2>Send Notifications</h2>
+
+<hr />
+<form asp-action="MultipleNotifications" method="post">
+    <div class="form-group">
+        <label for="Subject">Subject:</label>
+        <input type="text" name="Subject" class="form-control" placeholder="Enter subject" />
+    </div>
+    <div class="form-group">
+        <label for="emailContent">Content:</label>
+        <textarea name="emailContent" class="form-control" rows="5" placeholder="Enter your message"></textarea>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="control-label">Selected Clients</label>
+            <button type="button" id="btnRight" class="btn btn-danger btn-sm">
+                <strong>-</strong>
+            </button>
+            @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+        </div>
+
+        <div class="form-group col-md-6">
+            <label class="control-label">Available Clients</label>
+            <button type="button" id="btnLeft" class="btn btn-success btn-sm">
+                <strong>+</strong>
+            </button>
+            @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Send Email</button>
+</form>
+<div>
+    <partial name="_BackToList" />
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/multiselect.js"></script>
+}
+
