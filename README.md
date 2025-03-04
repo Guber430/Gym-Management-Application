@@ -3,3 +3,4 @@
 # admin@outlook.com | security@outlook.com | supervisor@outlook.com | staff@outlook.com | client@outlook.com | user@outlook.com
 # They all have same password: Pa55w@rd
 # You will a "User-Authorization" picture with the contents of the user accesibility that each user has.
+# Link: https://gymmanagement20241129.azurewebsites.net
