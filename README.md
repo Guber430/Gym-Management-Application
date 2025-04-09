@@ -1,8 +1,20 @@
 # Gym Management Application
 
-![Gym Management Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Barbell_icon.svg/1200px-Barbell_icon.svg.png)
-
 Welcome to the **Gym Management Application**, a comprehensive solution for managing group classes, instructors, and client enrollments in your gym. This application provides a user-friendly interface with robust functionality, allowing gym owners and staff to efficiently manage their daily operations.
+
+---
+
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [User Roles and Access](#user-roles-and-access)
+- [Live Demo](#live-demo)
+- [Technologies Used](#technologies-used)
+- [Setup Instructions](#setup-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Clone the Repository](#clone-the-repository)
+ 
+---
 
 ## Features
 
@@ -32,6 +44,8 @@ Welcome to the **Gym Management Application**, a comprehensive solution for mana
 
 - **🔒 Security**  
   **Auditing** and **Concurrency Control** ensure data integrity and user accountability.
+
+---
 
 ## User Roles and Access
 
@@ -63,6 +77,8 @@ Check out the live version of the application by visiting the link below:
 - **Frontend**: HTML, CSS, JavaScript (for the user interface)
 - **Authentication**: Built-in security measures with role-based access control
 - **Error Handling**: Includes proper exception handling and validation messages
+
+---
 
 ## Setup Instructions
 
